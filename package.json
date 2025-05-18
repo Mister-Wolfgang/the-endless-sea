@@ -1,0 +1,13 @@
+{
+  "name": "the-endless-sea-solo",
+  "version": "1.0.0",
+  "main": "main.cjs",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
