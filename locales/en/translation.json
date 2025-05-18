@@ -1,0 +1,12 @@
+{
+  "welcome": "Welcome to The Endless Sea!",
+  "menu": {
+    "start": "Start",
+    "options": "Options",
+    "quit": "Quit"
+  },
+  "hud": {
+    "score": "Score",
+    "lives": "Lives"
+  }
+}

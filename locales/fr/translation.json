@@ -1,0 +1,12 @@
+{
+  "welcome": "Bienvenue sur The Endless Sea !",
+  "menu": {
+    "start": "Démarrer",
+    "options": "Options",
+    "quit": "Quitter"
+  },
+  "hud": {
+    "score": "Score",
+    "lives": "Vies"
+  }
+}

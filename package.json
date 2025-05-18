@@ -1,0 +1,53 @@
+{
+  "name": "the-endless-sea-solo",
+  "version": "1.0.0",
+  "main": "main.cjs",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently --raw \"vite\" \"wait-on http://localhost:5173 && electron main.cjs\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "jest",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write .",
+    "storybook": "storybook dev -p 6006"
+  },
+  "dependencies": {
+    "i18next": "^25.2.0",
+    "phaser": "^3.90.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-i18next": "^15.5.2"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "@vitejs/plugin-react": "^4.5.0",
+    "concurrently": "^9.1.2",
+    "electron": "^36.3.1",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-react": "^7.37.5",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.5.3",
+    "prettier-eslint": "^16.4.2",
+    "storybook": "^8.6.14",
+    "ts-jest": "^29.3.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "wait-on": "^8.0.3"
+  }
+}
