@@ -1,4 +1,10 @@
-# DEVBOOK – Suivi de développement The Endless Sea - Solo
+# DEVBOOK – Suivi de dév### 1.- [x] Système d'input basique *(24/05/2025)*
+
+- [x] Affichage du personnage principal *(CharacterPreview, Storybook, 24/05/2025)*
+- [x] Mouvement du personnage *(24/05/2025, système fluide avec delta time)*Composants atomiques ([Suivi détaillé](./docs/Suivi/- [x] Tests unitaires et React *(24/05/2025)*
+- [x] Système d'input basique *(24/05/2025, avec support i18n et détection AZERTY/QWERTY)*
+- [x] Affichage du personnage principal *(CharacterPreview, Storybook, 24/05/2025)*
+- [ ] Mouvement du personnageement The Endless Sea - Solo
 
 Ce document sert de tableau de bord pour suivre l’avancement du projet, étape par étape, selon la méthodologie itérative, atomique et TDD définie dans la documentation.
 
@@ -80,7 +86,7 @@ Ajoute la date et un commentaire si besoin.
 - [x] Structure des dossiers *(24/05/2025)*
 - [x] Affichage du personnage principal *(CharacterPreview, Storybook, 24/05/2025)*
 - [x] Tests unitaires et React *(24/05/2025)*
-- [ ] Système d’input basique
+- [x] Système d’input basique
 
 ---
 
