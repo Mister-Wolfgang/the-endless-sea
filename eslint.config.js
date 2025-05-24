@@ -4,102 +4,77 @@ import tsParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
 import prettier from 'eslint-config-prettier';
 
+const commonGlobals = {
+  console: true,
+  navigator: true,
+  document: true,
+  window: true,
+  process: true,
+  HTMLDivElement: true, // Pour les composants React
+  HTMLElement: true
+};
+
+const testGlobals = {
+  ...commonGlobals,
+  describe: true,
+  it: true,
+  test: true,
+  expect: true,
+  jest: true,
+  beforeEach: true,
+  afterEach: true
+};
+
 export default [
-  // Node.js (config, Electron main, etc.)
+  js.configs.recommended,
   {
-    files: ['*.js', '*.cjs', '*.mjs', 'main.cjs', 'vite.config.*', 'jest.config.*'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
-      globals: {
-        require: true,
-        module: true,
-        process: true,
-        __dirname: true,
-        __filename: true,
-        exports: true,
-        Buffer: true,
-        global: true,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-    },
+    ignores: ['**/dist/**', 'node_modules/**'],
     rules: {
-      ...js.configs.recommended.rules,
-      ...prettier.rules,
-    },
+      'no-undef': 'error'
+    }
   },
-  // Tests (Jest globals)
   {
-    files: ['**/*.test.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: 2022,
         sourceType: 'module',
-        ecmaFeatures: { jsx: true },
+        ecmaFeatures: { jsx: true }
       },
-      globals: {
-        describe: true,
-        it: true,
-        test: true,
-        expect: true,
-        beforeEach: true,
-        afterEach: true,
-        jest: true,
-      },
+      globals: commonGlobals
     },
     plugins: {
       '@typescript-eslint': tseslint,
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      ...prettier.rules,
-    },
-  },
-  // Frontend (React, Phaser, etc.)
-  {
-    files: ['**/*.{ts,tsx,js,jsx}'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: { jsx: true },
-      },
-      globals: {
-        window: true,
-        document: true,
-        navigator: true,
-        fetch: true,
-        setTimeout: true,
-        clearTimeout: true,
-        setInterval: true,
-        clearInterval: true,
-        requestAnimationFrame: true,
-        cancelAnimationFrame: true,
-        HTMLDivElement: true,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-      react: react,
+      react
     },
     settings: {
-      react: {
-        version: 'detect',
-      },
+      react: { version: 'detect' }
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...prettier.rules,
-      // Permet d'utiliser JSX sans import React (React 17+ / TS 4.1+)
-      'react/react-in-jsx-scope': 'off',
-    },
+      'no-console': 'off',
+      'no-unused-vars': 'off',  // Désactivé en faveur de la règle TypeScript
+      '@typescript-eslint/no-unused-vars': ['error', { 
+        varsIgnorePattern: '^(UP|DOWN|LEFT|RIGHT|QWERTY|AZERTY|UNKNOWN)$'
+      }]
+    }
   },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+    languageOptions: {
+      globals: testGlobals
+    }
+  },
+  {
+    files: ['*.config.{ts,js}', '.storybook/**/*', 'vite.config.*'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        project: null
+      }
+    }
+  },
+  prettier
 ];

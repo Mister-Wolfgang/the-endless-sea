@@ -1,3 +1,4 @@
+/* global process */
 const { app, BrowserWindow } = require('electron');
 
 function createWindow() {

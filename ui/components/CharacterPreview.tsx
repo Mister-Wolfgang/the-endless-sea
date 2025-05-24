@@ -1,8 +1,9 @@
 import { FC, useEffect, useRef } from 'react';
 import Phaser from 'phaser';
+import type { HTMLAttributes } from 'react';
 
 // Props : assetKey, assetUrl, animationKey, frameConfig, etc.
-interface CharacterPreviewProps {
+interface CharacterPreviewProps extends HTMLAttributes<HTMLDivElement> {
   assetKey: string;
   assetUrl: string;
   frameWidth: number;

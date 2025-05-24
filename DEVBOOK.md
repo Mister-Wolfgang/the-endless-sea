@@ -4,6 +4,13 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 
 ---
 
+- Please follow every steps mentioned.
+- Do not be lazy.
+- Always provide the full document.
+- Do not generate code.
+- Answer in the shortest way possible, avoid long sentences, go straight to the point.
+- Confirmation questions: Only ONE question per confirmation.
+
 ## 1. Découpage en tâches atomiques
 
 ### 1.1. Systèmes de base
@@ -17,7 +24,7 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 
 ### 1.2. Composants atomiques ([Suivi détaillé](./docs/Suivi/01_TODO_Composants.md))
 
-- [ ] Système d’input basique
+- [x] Système d’input basique *(24/05/2025)*
 - [x] Affichage du personnage principal *(CharacterPreview, Storybook, 24/05/2025)*
 - [ ] Mouvement du personnage
 - [ ] Gestion des collisions

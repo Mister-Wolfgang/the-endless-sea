@@ -7,9 +7,26 @@ const config: Phaser.Types.Core.GameConfig = {
   height: 720,
   backgroundColor: '#222',
   scene: [Game],
-  parent: 'root',
+  parent: 'phaser-root',
+  transparent: false,
+  render: {
+    pixelArt: true,
+    antialias: false,
+    antialiasGL: false,
+  }
 };
 
+let game: Phaser.Game | null = null;
+
 export function startPhaser() {
-  new Phaser.Game(config);
+  if (game) {
+    console.log('Destroying existing game instance...');
+    game.destroy(true, false);
+    game = null;
+  }
+  
+  console.log('Starting Phaser with config:', config);
+  game = new Phaser.Game(config);
+  console.log('Phaser game instance:', game);
+  return game;
 }
