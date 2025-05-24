@@ -17,27 +17,28 @@ export enum KeyboardLayout {
 export interface KeyMapping {
   physicalKey: string;   // La touche réellement pressée
   eventCode: string;     // Le code envoyé par le navigateur
+  translationKey?: string; // Clé de traduction pour l'affichage
 }
 
 /** Mapping des touches par disposition de clavier */
 const LAYOUT_MAPPINGS: Record<KeyboardLayout, Record<InputKey, KeyMapping>> = {
   [KeyboardLayout.QWERTY]: {
-    [InputKey.UP]: { physicalKey: 'W', eventCode: 'KeyW' },
-    [InputKey.DOWN]: { physicalKey: 'S', eventCode: 'KeyS' },
-    [InputKey.LEFT]: { physicalKey: 'A', eventCode: 'KeyA' },
-    [InputKey.RIGHT]: { physicalKey: 'D', eventCode: 'KeyD' }
+    [InputKey.UP]: { physicalKey: 'W', eventCode: 'KeyW', translationKey: 'controls.mapping.UP' },
+    [InputKey.DOWN]: { physicalKey: 'S', eventCode: 'KeyS', translationKey: 'controls.mapping.DOWN' },
+    [InputKey.LEFT]: { physicalKey: 'A', eventCode: 'KeyA', translationKey: 'controls.mapping.LEFT' },
+    [InputKey.RIGHT]: { physicalKey: 'D', eventCode: 'KeyD', translationKey: 'controls.mapping.RIGHT' }
   },
   [KeyboardLayout.AZERTY]: {
-    [InputKey.UP]: { physicalKey: 'Z', eventCode: 'KeyW' },
-    [InputKey.DOWN]: { physicalKey: 'S', eventCode: 'KeyS' },
-    [InputKey.LEFT]: { physicalKey: 'Q', eventCode: 'KeyA' },
-    [InputKey.RIGHT]: { physicalKey: 'D', eventCode: 'KeyD' }
+    [InputKey.UP]: { physicalKey: 'Z', eventCode: 'KeyW', translationKey: 'controls.mapping.UP' },
+    [InputKey.DOWN]: { physicalKey: 'S', eventCode: 'KeyS', translationKey: 'controls.mapping.DOWN' },
+    [InputKey.LEFT]: { physicalKey: 'Q', eventCode: 'KeyA', translationKey: 'controls.mapping.LEFT' },
+    [InputKey.RIGHT]: { physicalKey: 'D', eventCode: 'KeyD', translationKey: 'controls.mapping.RIGHT' }
   },
   [KeyboardLayout.UNKNOWN]: {
-    [InputKey.UP]: { physicalKey: 'W/Z', eventCode: 'KeyW' },
-    [InputKey.DOWN]: { physicalKey: 'S', eventCode: 'KeyS' },
-    [InputKey.LEFT]: { physicalKey: 'A/Q', eventCode: 'KeyA' },
-    [InputKey.RIGHT]: { physicalKey: 'D', eventCode: 'KeyD' }
+    [InputKey.UP]: { physicalKey: 'W/Z', eventCode: 'KeyW', translationKey: 'controls.mapping.UP' },
+    [InputKey.DOWN]: { physicalKey: 'S', eventCode: 'KeyS', translationKey: 'controls.mapping.DOWN' },
+    [InputKey.LEFT]: { physicalKey: 'A/Q', eventCode: 'KeyA', translationKey: 'controls.mapping.LEFT' },
+    [InputKey.RIGHT]: { physicalKey: 'D', eventCode: 'KeyD', translationKey: 'controls.mapping.RIGHT' }
   }
 };
 
@@ -107,5 +108,36 @@ export class InputSystem {
 
   getCurrentLayout(): KeyboardLayout {
     return this.layout;
+  }
+
+  /** Obtient la clé de traduction pour une touche donnée */
+  getKeyTranslation(key: InputKey, t: (key: string, params?: any) => string): string {
+    const mapping = LAYOUT_MAPPINGS[this.layout][key];
+    return t(mapping.translationKey || '', { key: mapping.physicalKey });
+  }
+
+  /** Obtient la traduction de la disposition du clavier */
+  getLayoutTranslation(t: (key: string, params?: any) => string): string {
+    return t('controls.layout.detected', { 
+      layout: t(`controls.layout.${this.layout}`) 
+    });
+  }
+
+  /** Obtient toutes les informations de contrôle traduites */
+  getControlsInfo(t: (key: string, params?: any) => string) {
+    return {
+      layout: this.getLayoutTranslation(t),
+      keys: Object.values(InputKey).reduce((acc, key) => ({
+        ...acc,
+        [key]: this.getKeyTranslation(key as InputKey, t)
+      }), {})
+    };
+  }
+
+  /** Obtient la liste des touches actuellement pressées */
+  getPressedKeys(): InputKey[] {
+    return Object.values(InputKey).filter(key => 
+      this.isKeyPressed(key as InputKey)
+    );
   }
 }

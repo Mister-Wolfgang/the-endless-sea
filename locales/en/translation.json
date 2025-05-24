@@ -8,5 +8,28 @@
   "hud": {
     "score": "Score",
     "lives": "Lives"
+  },
+  "controls": {
+    "title": "Controls",
+    "none": "None",
+    "pressed_keys": "Pressed keys",
+    "layout": {
+      "detected": "Detected keyboard layout: {{layout}}",
+      "QWERTY": "QWERTY",
+      "AZERTY": "AZERTY",
+      "UNKNOWN": "Unknown"
+    },
+    "keys": {
+      "UP": "Move Forward",
+      "DOWN": "Move Backward",
+      "LEFT": "Move Left",
+      "RIGHT": "Move Right"
+    },
+    "mapping": {
+      "UP": "Press {{key}} to move forward",
+      "DOWN": "Press {{key}} to move backward",
+      "LEFT": "Press {{key}} to move left",
+      "RIGHT": "Press {{key}} to move right"
+    }
   }
 }

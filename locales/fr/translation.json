@@ -8,5 +8,28 @@
   "hud": {
     "score": "Score",
     "lives": "Vies"
+  },
+  "controls": {
+    "title": "Contrôles",
+    "none": "aucune",
+    "pressed_keys": "Touches pressées",
+    "layout": {
+      "detected": "Disposition de clavier détectée : {{layout}}",
+      "QWERTY": "QWERTY",
+      "AZERTY": "AZERTY",
+      "UNKNOWN": "Inconnue"
+    },
+    "keys": {
+      "UP": "Avancer",
+      "DOWN": "Reculer",
+      "LEFT": "Gauche",
+      "RIGHT": "Droite"
+    },
+    "mapping": {
+      "UP": "{{key}} pour avancer",
+      "DOWN": "{{key}} pour reculer",
+      "LEFT": "{{key}} pour aller à gauche",
+      "RIGHT": "{{key}} pour aller à droite"
+    }
   }
 }
