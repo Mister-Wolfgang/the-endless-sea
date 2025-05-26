@@ -23,7 +23,10 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
   - [x] Canvas plein écran, fond couleur, overlay titre React (hors Canvas)
   - [x] Cube 3D animé (rotation) avec React Three Fiber
   - [x] Tests d’intégration robustes (présence canvas et titre, sans mock complexe)
-- [ ] Setup Electron
+- [x] Setup Electron _(feature/setup-electron, 26/05/2025)_
+  - [x] Installation Electron sans warning
+  - [x] main.cjs compatible CommonJS, script dev: Vite + Electron en parallèle
+  - [x] Lancement sans erreur, structure prête pour TDD
 - [ ] Setup i18n (i18next, fichiers de langue)
 - [ ] Setup Storybook
 - [ ] Structure des dossiers et conventions
