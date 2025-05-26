@@ -16,7 +16,7 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 - [x] Initialisation du projet (dépôt, outils, structure) _(26/05/2025)_
 - [x] Configuration ESLint, Prettier, TypeScript, Jest _(26/05/2025)_
 - [x] Setup Vite _(feature/setup-vite, 26/05/2025)_
-- [ ] Setup React
+- [x] Setup React _(feature/setup-react, 26/05/2025)_
 - [ ] Setup ThreeJS
 - [ ] Setup React Three Fiber
 - [ ] Setup Electron

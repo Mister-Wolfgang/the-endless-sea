@@ -4,7 +4,7 @@ const reactPlugin = require('eslint-plugin-react');
 
 module.exports = [
   {
-    ignores: ['node_modules', 'dist', 'build', '*.config.js', '*.config.cjs'],
+    ignores: ['node_modules', 'dist', 'build', '*.config.js', '*.config.cjs', '**/dist/**', '**/build/**'],
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       ecmaVersion: 'latest',
@@ -22,6 +22,7 @@ module.exports = [
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
     },
     settings: {
       react: {
