@@ -13,11 +13,13 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 
 ## 1. Découpage en tâches atomiques
 
-### 1.1. Systèmes de base
-
-- [x] Initialisation du projet (dépôt, outils, structure) *(26/05/2025)*
-- [ ] Configuration ESLint, Prettier, TypeScript, Jest
-- [ ] Setup Vite + React + ThreeJS (React Three Fiber) + Electron
+- [x] Initialisation du projet (dépôt, outils, structure) _(26/05/2025)_
+- [x] Configuration ESLint, Prettier, TypeScript, Jest _(26/05/2025)_
+- [ ] Setup Vite
+- [ ] Setup React
+- [ ] Setup ThreeJS
+- [ ] Setup React Three Fiber
+- [ ] Setup Electron
 - [ ] Setup i18n (i18next, fichiers de langue)
 - [ ] Setup Storybook
 - [ ] Structure des dossiers et conventions
@@ -107,4 +109,4 @@ Ajoute la date et un commentaire si besoin.
 
 ---
 
-*Ajoute/modifie les tâches selon l’évolution du projet. Ce fichier est le point d’entrée pour piloter le développement solo.*
+_Ajoute/modifie les tâches selon l’évolution du projet. Ce fichier est le point d’entrée pour piloter le développement solo._
