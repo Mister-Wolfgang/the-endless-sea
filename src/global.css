@@ -1,0 +1,11 @@
+/* Styles globaux pour occuper tout l'écran sans marge ni padding */
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}

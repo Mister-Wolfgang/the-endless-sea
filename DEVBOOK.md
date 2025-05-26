@@ -19,7 +19,10 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 - [x] Setup React _(feature/setup-react, 26/05/2025)_
 - [x] Setup ThreeJS _(feature/setup-threejs, 26/05/2025)_
   - [x] Test d’intégration GameCanvas (mock WebGLRenderer, vérification canvas, TDD validé) _(26/05/2025)_
-- [ ] Setup React Three Fiber
+- [x] Setup React Three Fiber _(feature/setup-react-three-fiber, 26/05/2025)_
+  - [x] Canvas plein écran, fond couleur, overlay titre React (hors Canvas)
+  - [x] Cube 3D animé (rotation) avec React Three Fiber
+  - [x] Tests d’intégration robustes (présence canvas et titre, sans mock complexe)
 - [ ] Setup Electron
 - [ ] Setup i18n (i18next, fichiers de langue)
 - [ ] Setup Storybook

@@ -1,31 +1,57 @@
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Box } from '@react-three/drei';
 
-export function GameCanvas() {
-  const mountRef = useRef<HTMLDivElement>(null);
+type GameCanvasProps = {
+  title?: string;
+};
 
-  useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 2;
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(200, 200);
-    mount.appendChild(renderer.domElement);
+export function GameCanvas({ title }: GameCanvasProps) {
+  return (
+    <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
+      {title && (
+        <h1
+          style={{
+            position: 'absolute',
+            top: '5vh',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            color: 'white',
+            fontSize: '3vw',
+            textShadow: '0 2px 8px #000',
+            margin: 0,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            letterSpacing: '0.1em',
+            zIndex: 10,
+            pointerEvents: 'none',
+          }}
+        >
+          {title}
+        </h1>
+      )}
+      <Canvas style={{ width: '100vw', height: '100vh', display: 'block' }}>
+        <color attach="background" args={['#0a2233']} />
+        <RotatingBox />
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+      </Canvas>
+    </div>
+  );
+}
 
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x0077ff });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    renderer.render(scene, camera);
-
-    return () => {
-      mount.removeChild(renderer.domElement);
-      renderer.dispose();
-    };
-  }, []);
-
-  return <div ref={mountRef} />;
+// Composant Box animé
+function RotatingBox() {
+  const ref = useRef<any>(null);
+  useFrame(() => {
+    if (ref.current) {
+      ref.current.rotation.x += 0.01;
+      ref.current.rotation.y += 0.01;
+    }
+  });
+  return (
+    <Box ref={ref} position={[0, 0, 0]}>
+      <meshStandardMaterial color="#0077ff" />
+    </Box>
+  );
 }

@@ -1,14 +1,8 @@
 import { createRoot } from 'react-dom/client';
-
-
 import { GameCanvas } from './GameCanvas';
+import './global.css';
 
-const App = () => (
-  <div>
-    <h1>Hello Endless Sea</h1>
-    <GameCanvas />
-  </div>
-);
+const App = () => <GameCanvas title="The Endless Sea" />;
 
 const root = createRoot(document.getElementById('root')!);
 root.render(<App />);
