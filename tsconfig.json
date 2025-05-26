@@ -11,6 +11,6 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist"
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "setupTests.ts"],
   "exclude": ["node_modules", "dist", "build"]
 }
