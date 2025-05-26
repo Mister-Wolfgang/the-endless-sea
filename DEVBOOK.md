@@ -15,7 +15,7 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 
 ### 1.1. Systèmes de base
 
-- [ ] Initialisation du projet (dépôt, outils, structure)
+- [x] Initialisation du projet (dépôt, outils, structure) *(26/05/2025)*
 - [ ] Configuration ESLint, Prettier, TypeScript, Jest
 - [ ] Setup Vite + React + ThreeJS (React Three Fiber) + Electron
 - [ ] Setup i18n (i18next, fichiers de langue)

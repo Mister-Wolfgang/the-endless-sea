@@ -1,6 +1,5 @@
 # Choix technologiques
 
-
 ## Langage recommandé
 
 - **JavaScript/TypeScript** : moderne, vaste écosystème, idéal pour ThreeJS + React Three Fiber.
