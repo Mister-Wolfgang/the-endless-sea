@@ -27,7 +27,12 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
   - [x] Installation Electron sans warning
   - [x] main.cjs compatible CommonJS, script dev: Vite + Electron en parallèle
   - [x] Lancement sans erreur, structure prête pour TDD
-- [ ] Setup i18n (i18next, fichiers de langue)
+- [x] Setup i18n (i18next, fichiers de langue) _(feature/setup-i18n, 26/05/2025)_
+  - [x] Installation i18next et react-i18next
+  - [x] Fichiers de langue fr/en, intégration React, typage JSON OK
+  - [x] Titre du jeu reste en anglais (clé "title"), mais la clé "welcome" est traduite et testée (FR/EN)
+  - [x] Test unitaire validant la traduction de "welcome" (FR par défaut, EN après changement de langue)
+  - [x] Lint, typecheck, tests OK
 - [ ] Setup Storybook
 - [ ] Structure des dossiers et conventions
 

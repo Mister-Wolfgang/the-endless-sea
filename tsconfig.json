@@ -9,8 +9,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "resolveJsonModule": true
   },
-  "include": ["src", "tests", "setupTests.ts"],
+  "include": ["src", "tests", "setupTests.ts", "index.tsx"],
   "exclude": ["node_modules", "dist", "build"]
 }

@@ -10,6 +10,7 @@ module.exports = [
       'build',
       '*.config.js',
       '*.config.cjs',
+      'vite.config.ts',
       '**/dist/**',
       '**/build/**',
     ],

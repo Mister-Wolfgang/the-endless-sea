@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Box } from '@react-three/drei';
 
@@ -7,6 +8,7 @@ type GameCanvasProps = {
 };
 
 export function GameCanvas({ title }: GameCanvasProps) {
+  const { t } = useTranslation();
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
       {title && (
@@ -30,6 +32,26 @@ export function GameCanvas({ title }: GameCanvasProps) {
           {title}
         </h1>
       )}
+      {/* Affichage du message de bienvenue traduit */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '12vh',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          color: 'white',
+          fontSize: '1.5vw',
+          textShadow: '0 1px 4px #000',
+          margin: 0,
+          textAlign: 'center',
+          fontWeight: 'normal',
+          letterSpacing: '0.05em',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      >
+        {t('welcome')}
+      </div>
       <Canvas style={{ width: '100vw', height: '100vh', display: 'block' }}>
         <color attach="background" args={['#0a2233']} />
         <RotatingBox />
