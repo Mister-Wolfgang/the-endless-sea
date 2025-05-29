@@ -43,7 +43,7 @@ jest.mock('three', () => {
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { GameCanvas } from '../GameCanvas';
+import { GameCanvas } from '../game/scenes/GameCanvas';
 import { I18nextProvider } from 'react-i18next';
 import i18n, { initI18n } from '../services/i18n';
 
