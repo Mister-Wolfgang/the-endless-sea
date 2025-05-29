@@ -12,6 +12,13 @@
     "outDir": "./dist",
     "resolveJsonModule": true
   },
-  "include": ["src", "tests", "setupTests.ts", "index.tsx"],
+  "include": [
+    "src",
+    "tests",
+    "setupTests.ts",
+    "index.tsx",
+    ".storybook",
+    "vitest.workspace.ts"
+  ],
   "exclude": ["node_modules", "dist", "build"]
 }
