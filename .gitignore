@@ -81,3 +81,4 @@ app/node_modules/
 # Windows specific
 *.tmp
 *.temp
+*storybook.log
