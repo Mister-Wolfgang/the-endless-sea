@@ -10,11 +10,6 @@ function App() {
   const { t } = useTranslation();
   const { game, setScene, startGame } = useAppStore();
   
-  const handleNewGame = () => {
-    startGame();
-    setScene('game');
-  };
-  
   const handleContinue = () => {
     // TODO: Charger une sauvegarde
     setScene('game');
@@ -40,7 +35,6 @@ function App() {
       case 'main':
         return (
           <MainMenu
-            onNewGame={handleNewGame}
             onContinue={handleContinue}
             onOpenOptions={handleOpenOptions}
             onQuit={handleQuit}
@@ -57,7 +51,7 @@ function App() {
           </div>
         );
       default:
-        return <MainMenu onNewGame={handleNewGame} onContinue={handleContinue} onOpenOptions={handleOpenOptions} onQuit={handleQuit} />;
+        return <MainMenu onContinue={handleContinue} onOpenOptions={handleOpenOptions} onQuit={handleQuit} />;
     }
   };
 

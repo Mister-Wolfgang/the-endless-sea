@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppStore } from '../../shared/stores/AppStore';
 import { InputManager } from '../../shared/services/InputManager';
 import { InputAction, InputType } from '../../shared/types/input';
+import { CharacterSelection } from './CharacterSelection_BindingOfIsaac';
+import { CharacterData, GameMode } from '../../shared/types/character';
 
 export interface MainMenuProps {
   onNewGame?: () => void;
@@ -26,6 +28,7 @@ export function MainMenu({
   hasSave = false,
 }: MainMenuProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showCharacterSelection, setShowCharacterSelection] = useState(false);
   const { startGame, setScene } = useAppStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputManagerRef = useRef<InputManager | null>(null);
@@ -45,9 +48,8 @@ export function MainMenu({
         if (onNewGame) {
           onNewGame();
         } else {
-          // Action par défaut
-          startGame();
-          setScene('game');
+          // Ouvrir la modal de sélection de personnage
+          setShowCharacterSelection(true);
         }
       },
     },
@@ -252,6 +254,20 @@ export function MainMenu({
     return () => clearInterval(interval);
   }, []);
 
+  // Handlers pour la sélection de personnage
+  const handleStartGame = useCallback((character: CharacterData, mode: GameMode, seed?: string) => {
+    console.log('[MainMenu] Démarrage du jeu avec:', { character, mode, seed });
+    setShowCharacterSelection(false);
+    
+    // Ici, vous pouvez stocker le personnage sélectionné dans le store ou passer les données au jeu
+    startGame();
+    setScene('game');
+  }, [startGame, setScene]);
+
+  const handleCloseCharacterSelection = useCallback(() => {
+    setShowCharacterSelection(false);
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -366,6 +382,13 @@ export function MainMenu({
           <p>Left Stick Y: {debugInfo.leftStickY.toFixed(2)}</p>
         </div>
       )}
+
+      {/* Modal de sélection de personnage */}
+      <CharacterSelection
+        isOpen={showCharacterSelection}
+        onClose={handleCloseCharacterSelection}
+        onStartGame={handleStartGame}
+      />
     </div>
   );
 }
