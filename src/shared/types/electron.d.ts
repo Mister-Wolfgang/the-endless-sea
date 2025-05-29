@@ -7,11 +7,11 @@ export interface ElectronAPI {
   mkdirSync: (dirPath: string) => Promise<boolean>;
   writeFileSync: (filePath: string, content: string) => Promise<boolean>;
   copyFileSync: (src: string, dest: string) => Promise<boolean>;
-  
+
   // APIs pour les chemins
   pathJoin: (...args: string[]) => Promise<string>;
   pathDirname: (filePath: string) => Promise<string>;
-  
+
   // APIs pour les informations sur le processus
   getProcessInfo: () => Promise<{
     execPath: string;

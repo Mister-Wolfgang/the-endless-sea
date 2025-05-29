@@ -94,8 +94,8 @@ ipcMain.handle('process:getInfo', async (event) => {
     cwd: process.cwd(),
     platform: process.platform,
     env: {
-      NODE_ENV: process.env.NODE_ENV
-    }
+      NODE_ENV: process.env.NODE_ENV,
+    },
   };
 });
 

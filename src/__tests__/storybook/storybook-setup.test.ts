@@ -19,7 +19,13 @@ describe('Storybook Setup', () => {
   });
 
   it('should have at least one story file', () => {
-    const languageMenuStory = resolve(process.cwd(), 'src', 'ui', 'components', 'LanguageMenu.stories.ts');
+    const languageMenuStory = resolve(
+      process.cwd(),
+      'src',
+      'ui',
+      'components',
+      'LanguageMenu.stories.ts',
+    );
     expect(existsSync(languageMenuStory)).toBe(true);
   });
 

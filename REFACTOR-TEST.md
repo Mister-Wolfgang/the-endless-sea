@@ -10,7 +10,7 @@ src/
 ├── game/           # Logique de jeu (ThreeJS/React Three Fiber)
 │   ├── entities/   # Joueur, navires, ennemis, NPCs
 │   ├── systems/    # Input, mouvement, combat, inventaire
-│   ├── components/ # Composants de jeu réutilisables  
+│   ├── components/ # Composants de jeu réutilisables
 │   ├── scenes/     # Scènes 3D principales
 │   └── core/       # Moteur de jeu, boucle principale
 ├── ui/             # Interface React pure
@@ -33,11 +33,13 @@ src/
 ## 🎯 TEST AVEC GAMECANVAS.TSX
 
 ### Analyse du fichier actuel :
+
 - **Localisation actuelle :** `src/GameCanvas.tsx`
 - **Type :** Composant 3D avec logique de rendu ThreeJS
 - **Contenu :** Canvas 3D + cube animé + overlay titre
 
 ### Classification selon nouvelle structure :
+
 - **Destination :** `src/game/scenes/GameCanvas.tsx`
 - **Raison :** C'est une scène 3D principal du jeu utilisant React Three Fiber
 
@@ -69,26 +71,32 @@ src/
 ## 🧪 RÉSULTATS DU TEST
 
 ### ✅ **TEST RÉUSSI - Build**
+
 - Dossier créé : `src/game/scenes/`
 - Fichier copié : `GameCanvas.tsx` → `src/game/scenes/GameCanvas.tsx`
 - **Build Vite : ✅ SUCCÈS** (4.23s, aucune erreur)
 - Import depuis nouvelle structure : **FONCTIONNEL**
 
 ### ❌ **PROBLÈME IDENTIFIÉ - Configuration Jest**
+
 - Configuration Jest : `roots: ['<rootDir>/src', '<rootDir>/tests']`
-- Mais tests réels dans : `/src/tests/` 
+- Mais tests réels dans : `/src/tests/`
 - **Solution** : Corriger config Jest ou déplacer tests vers structure cible
 
 ### 📋 **FICHIERS AFFECTÉS PAR GAMECANVAS**
+
 - `index.tsx` (import principal)
 - `src/tests/game-launch.test.tsx` (tests)
 - **Impact limité** : seulement 2 fichiers à modifier
 
 ### 🎯 **VALIDATION DE LA STRUCTURE**
+
 La classification `GameCanvas` → `game/scenes/` est **PERTINENTE** car :
+
 - C'est une scène 3D principale avec React Three Fiber
 - Contient la logique de rendu du jeu
 - N'est pas de l'UI pure mais du moteur de jeu
 
 ## ✅ **PRÊT POUR MIGRATION COMPLÈTE**
+
 Le test confirme que la structure est viable. Prochaines étapes ?

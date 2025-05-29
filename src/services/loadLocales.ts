@@ -2,30 +2,41 @@
 export async function loadLocales(): Promise<Record<string, any>> {
   console.log('🌍 Début du chargement des traductions...');
 
-  if (
-    typeof window !== 'undefined' &&
-    (window as any).electronAPI
-  ) {
+  if (typeof window !== 'undefined' && (window as any).electronAPI) {
     // Electron renderer avec APIs sécurisées
     console.log('🔧 Mode Electron détecté avec APIs sécurisées');
     const electronAPI = (window as any).electronAPI;
     const processInfo = await electronAPI.getProcessInfo();
 
     console.log("📁 Chemin de l'exécutable:", processInfo.execPath);
-    console.log("📁 Dossier de travail:", processInfo.cwd);
+    console.log('📁 Dossier de travail:', processInfo.cwd);
 
     // Définir les dossiers de traductions (utilisateur + application)
     let userLocalesDir = '';
     let appLocalesDir = '';
 
     if (processInfo.env.NODE_ENV === 'development') {
-      // En développement
-      appLocalesDir = await electronAPI.pathJoin(processInfo.cwd, 'dist', 'locales');
-      userLocalesDir = await electronAPI.pathJoin(processInfo.cwd, 'user-translations');
+      // En développement - utiliser public/locales
+      appLocalesDir = await electronAPI.pathJoin(
+        processInfo.cwd,
+        'public',
+        'locales',
+      );
+      userLocalesDir = await electronAPI.pathJoin(
+        processInfo.cwd,
+        'user-translations',
+      );
     } else {
       // En production - dossier utilisateur à côté de l'exécutable pour que les joueurs puissent y accéder
-      userLocalesDir = await electronAPI.pathJoin(await electronAPI.pathDirname(processInfo.execPath), 'translations');
-      appLocalesDir = await electronAPI.pathJoin(await electronAPI.pathDirname(processInfo.execPath), 'resources', 'locales');
+      userLocalesDir = await electronAPI.pathJoin(
+        await electronAPI.pathDirname(processInfo.execPath),
+        'translations',
+      );
+      appLocalesDir = await electronAPI.pathJoin(
+        await electronAPI.pathDirname(processInfo.execPath),
+        'resources',
+        'locales',
+      );
     }
 
     console.log('📦 Dossier traductions application:', appLocalesDir);
@@ -39,8 +50,9 @@ export async function loadLocales(): Promise<Record<string, any>> {
 
         // Copier les traductions par défaut si le dossier application existe
         if (await electronAPI.existsSync(appLocalesDir)) {
-          const appFiles = (await electronAPI.readdirSync(appLocalesDir))
-            .filter((f: string) => f.endsWith('.json'));
+          const appFiles = (
+            await electronAPI.readdirSync(appLocalesDir)
+          ).filter((f: string) => f.endsWith('.json'));
           for (const file of appFiles) {
             const srcPath = await electronAPI.pathJoin(appLocalesDir, file);
             const destPath = await electronAPI.pathJoin(userLocalesDir, file);
@@ -51,7 +63,10 @@ export async function loadLocales(): Promise<Record<string, any>> {
           }
 
           // Créer un fichier README pour expliquer aux utilisateurs
-          const readmePath = await electronAPI.pathJoin(userLocalesDir, 'README.txt');
+          const readmePath = await electronAPI.pathJoin(
+            userLocalesDir,
+            'README.txt',
+          );
           const readmeContent = `TRADUCTIONS - The Endless Sea
 ============================
 
@@ -89,8 +104,9 @@ Bonne traduction ! 🌍
     // 1. Charger depuis le dossier utilisateur (priorité)
     if (await electronAPI.existsSync(userLocalesDir)) {
       try {
-        const userFiles = (await electronAPI.readdirSync(userLocalesDir))
-          .filter((f: string) => f.endsWith('.json'));
+        const userFiles = (
+          await electronAPI.readdirSync(userLocalesDir)
+        ).filter((f: string) => f.endsWith('.json'));
         console.log('👤 Fichiers utilisateur trouvés:', userFiles);
 
         for (const file of userFiles) {
@@ -124,8 +140,9 @@ Bonne traduction ! 🌍
     // 2. Charger depuis le dossier application (fallback pour les langues manquantes)
     if (await electronAPI.existsSync(appLocalesDir)) {
       try {
-        const appFiles = (await electronAPI.readdirSync(appLocalesDir))
-          .filter((f: string) => f.endsWith('.json'));
+        const appFiles = (await electronAPI.readdirSync(appLocalesDir)).filter(
+          (f: string) => f.endsWith('.json'),
+        );
         console.log('📦 Fichiers application trouvés:', appFiles);
 
         for (const file of appFiles) {

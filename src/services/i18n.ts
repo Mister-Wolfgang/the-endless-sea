@@ -8,7 +8,10 @@ export async function initI18n() {
   const availableLangs = Object.keys(resources).sort();
 
   // Debug en développement seulement (pas pendant les tests)
-  if (process.env.NODE_ENV === 'development' && !process.env.JEST_WORKER_ID) {
+  // Éviter l'utilisation de process dans le renderer Electron
+  const isDev = !!(window as any).__VITE_HMR__;
+  const isTest = typeof jest !== 'undefined';
+  if (isDev && !isTest) {
     console.log('🌍 Langues disponibles pour i18n:', availableLangs);
   }
 
@@ -19,14 +22,14 @@ export async function initI18n() {
     supportedLngs: availableLangs,
     load: 'languageOnly', // Ignorer les variantes régionales
     interpolation: { escapeValue: false },
-    debug: process.env.NODE_ENV === 'development' && !process.env.JEST_WORKER_ID, // Debug en développement seulement
+    debug: isDev && !isTest, // Debug en développement seulement
   });
 
   // S'assurer que les langues sont bien exposées
   i18n.languages = availableLangs;
 
   // Debug en développement seulement (pas pendant les tests)
-  if (process.env.NODE_ENV === 'development' && !process.env.JEST_WORKER_ID) {
+  if (isDev && !isTest) {
     console.log('🔧 i18n initialisé avec les langues:', i18n.languages);
   }
 
