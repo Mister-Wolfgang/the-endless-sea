@@ -1,0 +1,3 @@
+@echo off
+echo Lancement de l'application empaquetée...
+start "" "C:\Users\Wolfgang\Releases\The-Endless-Sea\win-unpacked\The Endless Sea - Solo.exe"

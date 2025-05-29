@@ -1,0 +1,36 @@
+{
+  "appId": "com.tesolo.app",
+  "productName": "The Endless Sea - Solo",
+  "directories": {
+    "buildResources": "assets",
+    "output": "C:\\Users\\Wolfgang\\Releases\\The-Endless-Sea"
+  },
+  "files": ["dist/**/*", "main.cjs", "node_modules/**/*", "package.json"],
+  "extraResources": [
+    {
+      "from": "dist/locales",
+      "to": "locales",
+      "filter": ["**/*"]
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "dir",
+        "arch": ["x64"]
+      }
+    ],
+    "forceCodeSigning": false,
+    "verifyUpdateCodeSignature": false
+  },
+  "linux": {
+    "target": ["AppImage"]
+  },
+  "mac": {
+    "target": ["dmg"]
+  },
+  "compression": "store",
+  "buildDependenciesFromSource": false,
+  "nodeGypRebuild": false,
+  "npmRebuild": false
+}

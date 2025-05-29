@@ -3,17 +3,22 @@ const tsParser = require('@typescript-eslint/parser');
 const reactPlugin = require('eslint-plugin-react');
 
 module.exports = [
+  // Configuration pour ignorer complètement certains fichiers/dossiers
   {
     ignores: [
-      'node_modules',
-      'dist',
-      'build',
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      '.storybook/**',
       '*.config.js',
       '*.config.cjs',
-      '**/dist/**',
-      '**/build/**',
+      'vite.config.ts',
+      'vitest.workspace.ts',
     ],
-    files: ['**/*.{js,jsx,ts,tsx}'],
+  },
+  // Configuration principale pour les fichiers source
+  {
+    files: ['src/**/*.{js,jsx,ts,tsx}', '*.{js,jsx,ts,tsx}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',

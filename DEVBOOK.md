@@ -27,9 +27,20 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
   - [x] Installation Electron sans warning
   - [x] main.cjs compatible CommonJS, script dev: Vite + Electron en parallèle
   - [x] Lancement sans erreur, structure prête pour TDD
-- [ ] Setup i18n (i18next, fichiers de langue)
-- [ ] Setup Storybook
-- [ ] Structure des dossiers et conventions
+- [x] Setup i18n (i18next, fichiers de langue) _(feature/setup-i18n, 26/05/2025)_
+  - [x] Installation i18next et react-i18next
+  - [x] Fichiers de langue fr/en, intégration React, typage JSON OK
+  - [x] Titre du jeu reste en anglais (clé "title"), mais la clé "welcome" est traduite et testée (FR/EN)
+  - [x] Test unitaire validant la traduction de "welcome" (FR par défaut, EN après changement de langue)
+  - [x] Lint, typecheck, tests OK
+- [x] Setup Storybook _(feature/setup-storybook, 29/05/2025)_ ✅ **TERMINÉ**
+  - [x] Installation Storybook v9.0.0 avec React-Vite
+  - [x] Configuration automatique des addons essentiels
+  - [x] Migration vers framework-based configuration
+  - [x] Story de test LanguageMenu créée
+  - [x] Tests d'intégration validés (configuration, scripts, stories)
+  - [x] Interface accessible sur http://localhost:6006
+- [x] Structure des dossiers et conventions _(refactor-structure, 29/05/2025)_ ✅ **TERMINÉ**
 
 ### 1.2. Composants atomiques ([Suivi détaillé](./docs/Suivi/01_TODO_Composants.md))
 
