@@ -44,7 +44,12 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 
 ### 1.2. Composants atomiques ([Suivi détaillé](./docs/Suivi/01_TODO_Composants.md))
 
-- [ ] Système d’input basique
+- [x] Système d'input basique _(feature/input-system, 29/05/2025)_ ✅ **TERMINÉ**
+  - [x] Types TypeScript pour le système d'input (InputState, InputAction, etc.)
+  - [x] Service InputManager avec gestion clavier, souris et manette
+  - [x] 16 tests TDD passant avec toutes les fonctionnalités
+  - [x] Mapping d'actions configurables et handlers d'événements
+- [ ] Système de store/state management global
 - [ ] Affichage du personnage principal
 - [ ] Mouvement du personnage
 - [ ] Gestion des collisions
