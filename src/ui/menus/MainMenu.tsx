@@ -110,8 +110,8 @@ export function MainMenu({
   const handleNavigation = useCallback((direction: 'up' | 'down') => {
     console.log(`[MainMenu] handleNavigation appelé: ${direction}`);
     const now = Date.now();
-    // Éviter la navigation trop rapide (débounce de 100ms)
-    if (now - lastNavigationTime.current < 100) {
+    // Débounce réduit à 50ms car InputManager gère déjà le debounce des sticks (200ms)
+    if (now - lastNavigationTime.current < 50) {
       console.log(`[MainMenu] Navigation ignorée (débounce): ${now - lastNavigationTime.current}ms depuis la dernière`);
       return;
     }

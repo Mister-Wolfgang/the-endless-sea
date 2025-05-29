@@ -14,6 +14,10 @@ export class InputManager {
   private handlers: Map<InputAction, InputHandler[]>;
   private previousMouseX: number = 0;
   private previousMouseY: number = 0;
+  
+  // Debounce pour les sticks analogiques
+  private stickLastTrigger: Map<string, number> = new Map();
+  private readonly STICK_DEBOUNCE_MS = 200; // 200ms entre les déclenchements stick
 
   constructor(element: HTMLElement) {
     this.element = element;
@@ -273,23 +277,42 @@ export class InputManager {
 
     // Détecter les mouvements de stick significatifs (seuil de 0.3)
     const STICK_THRESHOLD = 0.3;
+    const now = Date.now();
     
-    // Stick gauche pour navigation
+    // Stick gauche pour navigation avec debounce
     if (Math.abs(leftStickX) > STICK_THRESHOLD || Math.abs(leftStickY) > STICK_THRESHOLD) {
-      console.log(`[InputManager] 🕹️ Stick gauche détecté: X=${leftStickX.toFixed(2)}, Y=${leftStickY.toFixed(2)}`);
-      
       // Navigation horizontale
       if (leftStickX > STICK_THRESHOLD) {
-        this.triggerMappedActions('stick_right', InputType.GAMEPAD, leftStickX);
+        const lastTrigger = this.stickLastTrigger.get('stick_right') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🕹️ Stick droite détecté: X=${leftStickX.toFixed(2)}`);
+          this.triggerMappedActions('stick_right', InputType.GAMEPAD, leftStickX);
+          this.stickLastTrigger.set('stick_right', now);
+        }
       } else if (leftStickX < -STICK_THRESHOLD) {
-        this.triggerMappedActions('stick_left', InputType.GAMEPAD, Math.abs(leftStickX));
+        const lastTrigger = this.stickLastTrigger.get('stick_left') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🕹️ Stick gauche détecté: X=${leftStickX.toFixed(2)}`);
+          this.triggerMappedActions('stick_left', InputType.GAMEPAD, Math.abs(leftStickX));
+          this.stickLastTrigger.set('stick_left', now);
+        }
       }
       
       // Navigation verticale
       if (leftStickY > STICK_THRESHOLD) {
-        this.triggerMappedActions('stick_down', InputType.GAMEPAD, leftStickY);
+        const lastTrigger = this.stickLastTrigger.get('stick_down') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🕹️ Stick bas détecté: Y=${leftStickY.toFixed(2)}`);
+          this.triggerMappedActions('stick_down', InputType.GAMEPAD, leftStickY);
+          this.stickLastTrigger.set('stick_down', now);
+        }
       } else if (leftStickY < -STICK_THRESHOLD) {
-        this.triggerMappedActions('stick_up', InputType.GAMEPAD, Math.abs(leftStickY));
+        const lastTrigger = this.stickLastTrigger.get('stick_up') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🕹️ Stick haut détecté: Y=${leftStickY.toFixed(2)}`);
+          this.triggerMappedActions('stick_up', InputType.GAMEPAD, Math.abs(leftStickY));
+          this.stickLastTrigger.set('stick_up', now);
+        }
       }
     }
 
@@ -316,23 +339,41 @@ export class InputManager {
       }
     }
 
-    // Gérer le D-pad (souvent des axes 4 et 5 sur Xbox 360)
+    // Gérer le D-pad (souvent des axes 4 et 5 sur Xbox 360) avec debounce
     const dpadX = gamepad.axes[6] || 0; // Axe horizontal du D-pad
     const dpadY = gamepad.axes[7] || 0; // Axe vertical du D-pad
 
     if (Math.abs(dpadX) > 0.5 || Math.abs(dpadY) > 0.5) {
-      console.log(`[InputManager] 🎮 D-pad détecté: X=${dpadX}, Y=${dpadY}`);
-      
       if (dpadX > 0.5) {
-        this.triggerMappedActions('dpad_right', InputType.GAMEPAD, 1);
+        const lastTrigger = this.stickLastTrigger.get('dpad_right') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🎮 D-pad droite détecté: X=${dpadX}`);
+          this.triggerMappedActions('dpad_right', InputType.GAMEPAD, 1);
+          this.stickLastTrigger.set('dpad_right', now);
+        }
       } else if (dpadX < -0.5) {
-        this.triggerMappedActions('dpad_left', InputType.GAMEPAD, 1);
+        const lastTrigger = this.stickLastTrigger.get('dpad_left') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🎮 D-pad gauche détecté: X=${dpadX}`);
+          this.triggerMappedActions('dpad_left', InputType.GAMEPAD, 1);
+          this.stickLastTrigger.set('dpad_left', now);
+        }
       }
       
       if (dpadY > 0.5) {
-        this.triggerMappedActions('dpad_down', InputType.GAMEPAD, 1);
+        const lastTrigger = this.stickLastTrigger.get('dpad_down') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🎮 D-pad bas détecté: Y=${dpadY}`);
+          this.triggerMappedActions('dpad_down', InputType.GAMEPAD, 1);
+          this.stickLastTrigger.set('dpad_down', now);
+        }
       } else if (dpadY < -0.5) {
-        this.triggerMappedActions('dpad_up', InputType.GAMEPAD, 1);
+        const lastTrigger = this.stickLastTrigger.get('dpad_up') || 0;
+        if (now - lastTrigger >= this.STICK_DEBOUNCE_MS) {
+          console.log(`[InputManager] 🎮 D-pad haut détecté: Y=${dpadY}`);
+          this.triggerMappedActions('dpad_up', InputType.GAMEPAD, 1);
+          this.stickLastTrigger.set('dpad_up', now);
+        }
       }
     }
   }
