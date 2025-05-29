@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Manette - The Endless Sea</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #1a2332;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .gamepad-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .axes, .buttons {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .axis, .button {
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        .pressed {
+            background: #4fc3f7 !important;
+            color: black;
+            font-weight: bold;
+        }
+        .log {
+            height: 200px;
+            overflow-y: auto;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Test Diagnostic Manette</h1>
+        
+        <div class="section">
+            <h2>État de Connexion</h2>
+            <p>Manettes connectées: <span id="gamepadCount">0</span></p>
+            <p>API Gamepad supportée: <span id="gamepadSupport">❌</span></p>
+        </div>
+
+        <div class="section">
+            <h2>Informations Manette</h2>
+            <div id="gamepadInfo">Aucune manette détectée</div>
+        </div>
+
+        <div class="section">
+            <h2>Log des Événements</h2>
+            <div id="eventLog" class="log"></div>
+            <button onclick="clearLog()">Effacer Log</button>
+        </div>
+
+        <div class="section">
+            <h2>Instructions</h2>
+            <p>1. Connectez votre manette USB ou Bluetooth</p>
+            <p>2. Appuyez sur n'importe quel bouton pour l'activer</p>
+            <p>3. Testez la navigation avec le D-pad et le stick gauche</p>
+            <p>4. Regardez les logs pour voir les événements détectés</p>
+        </div>
+    </div>
+
+    <script>
+        let gamepadIndex = -1;
+
+        function log(message) {
+            const logElement = document.getElementById('eventLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}<br>`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('eventLog').innerHTML = '';
+        }
+
+        function checkGamepadSupport() {
+            const supported = 'getGamepads' in navigator;
+            document.getElementById('gamepadSupport').textContent = supported ? '✅' : '❌';
+            if (supported) {
+                log('✅ API Gamepad supportée');
+            } else {
+                log('❌ API Gamepad non supportée');
+            }
+            return supported;
+        }
+
+        function updateGamepadInfo() {
+            const gamepads = navigator.getGamepads();
+            const count = Array.from(gamepads).filter(g => g !== null).length;
+            document.getElementById('gamepadCount').textContent = count;
+
+            const infoDiv = document.getElementById('gamepadInfo');
+            
+            if (count === 0) {
+                infoDiv.innerHTML = 'Aucune manette détectée';
+                return;
+            }
+
+            let html = '';
+            for (let i = 0; i < gamepads.length; i++) {
+                const gamepad = gamepads[i];
+                if (gamepad) {
+                    html += `
+                        <div class="gamepad-info">
+                            <div>
+                                <h3>Manette ${i}</h3>
+                                <p><strong>ID:</strong> ${gamepad.id}</p>
+                                <p><strong>Index:</strong> ${gamepad.index}</p>
+                                <p><strong>Connectée:</strong> ${gamepad.connected ? '✅' : '❌'}</p>
+                                <p><strong>Boutons:</strong> ${gamepad.buttons.length}</p>
+                                <p><strong>Axes:</strong> ${gamepad.axes.length}</p>
+                            </div>
+                            <div>
+                                <div class="axes">
+                                    <h4>Axes (Sticks)</h4>
+                                    ${gamepad.axes.map((axis, idx) => 
+                                        `<div class="axis">Axe ${idx}: ${axis.toFixed(3)}</div>`
+                                    ).join('')}
+                                </div>
+                                <div class="buttons">
+                                    <h4>Boutons</h4>
+                                    ${gamepad.buttons.map((button, idx) => 
+                                        `<div class="button ${button.pressed ? 'pressed' : ''}">
+                                            Bouton ${idx}: ${button.pressed ? 'PRESSÉ' : 'relâché'} (${button.value.toFixed(3)})
+                                        </div>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            infoDiv.innerHTML = html;
+        }
+
+        // Événements de connexion/déconnexion
+        window.addEventListener('gamepadconnected', (e) => {
+            log(`🎮 Manette connectée: ${e.gamepad.id} (index: ${e.gamepad.index})`);
+            gamepadIndex = e.gamepad.index;
+        });
+
+        window.addEventListener('gamepaddisconnected', (e) => {
+            log(`🎮 Manette déconnectée: ${e.gamepad.id} (index: ${e.gamepad.index})`);
+            if (gamepadIndex === e.gamepad.index) {
+                gamepadIndex = -1;
+            }
+        });
+
+        // Surveillance des boutons et axes
+        let lastButtonStates = {};
+        let lastAxisStates = {};
+
+        function pollGamepad() {
+            if (gamepadIndex === -1) return;
+
+            const gamepad = navigator.getGamepads()[gamepadIndex];
+            if (!gamepad) return;
+
+            // Vérifier les boutons
+            gamepad.buttons.forEach((button, index) => {
+                const wasPressed = lastButtonStates[index] || false;
+                const isPressed = button.pressed;
+
+                if (isPressed && !wasPressed) {
+                    log(`🔴 Bouton ${index} pressé (valeur: ${button.value.toFixed(3)})`);
+                } else if (!isPressed && wasPressed) {
+                    log(`⚪ Bouton ${index} relâché`);
+                }
+
+                lastButtonStates[index] = isPressed;
+            });
+
+            // Vérifier les axes (avec seuil pour éviter le bruit)
+            gamepad.axes.forEach((axis, index) => {
+                const lastValue = lastAxisStates[index] || 0;
+                const threshold = 0.1;
+
+                if (Math.abs(axis - lastValue) > threshold) {
+                    log(`🕹️ Axe ${index}: ${lastValue.toFixed(3)} → ${axis.toFixed(3)}`);
+                    lastAxisStates[index] = axis;
+                }
+            });
+        }
+
+        // Initialisation
+        checkGamepadSupport();
+        log('🚀 Diagnostic de manette initialisé');
+        log('💡 Connectez une manette et appuyez sur un bouton pour l\'activer');
+
+        // Boucle de mise à jour
+        setInterval(() => {
+            updateGamepadInfo();
+            pollGamepad();
+        }, 50); // 20 FPS
+    </script>
+</body>
+</html>

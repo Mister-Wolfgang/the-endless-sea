@@ -38,6 +38,8 @@ export class InputManager {
       leftStickY: 0,
       rightStickX: 0,
       rightStickY: 0,
+      gamepadButtons: new Map<number, boolean>(),
+      gamepadPreviousButtons: new Map<number, boolean>(),
     };
   }
 
@@ -111,17 +113,38 @@ export class InputManager {
   }
 
   private handleGamepadConnected(event: GamepadEvent): void {
+    console.log(`[InputManager] ✅ Manette connectée dans l'app:`, event.gamepad.id);
     this.state.gamepadConnected = true;
   }
 
   private handleGamepadDisconnected(event: GamepadEvent): void {
+    console.log(`[InputManager] ❌ Manette déconnectée dans l'app:`, event.gamepad.id);
     this.state.gamepadConnected = false;
   }
 
   private triggerMappedActions(input: string, type: InputType, value: number): void {
+    console.log(`[InputManager] 🔍 Recherche mappings pour: "${input}" (${type}) avec valeur ${value}`);
+    
     for (const [action, mappings] of this.mappings.entries()) {
       for (const mapping of mappings) {
-        if (mapping.type === type && mapping.key === input) {
+        let isMatch = false;
+        
+        if (mapping.type === type) {
+          if (type === InputType.GAMEPAD) {
+            // Pour la manette, vérifier les boutons ou les noms spéciaux (stick, dpad)
+            if (mapping.button !== undefined) {
+              isMatch = input === `button${mapping.button}`;
+            } else if (mapping.key) {
+              isMatch = mapping.key === input;
+            }
+          } else {
+            // Pour clavier et souris
+            isMatch = mapping.key === input;
+          }
+        }
+        
+        if (isMatch) {
+          console.log(`[InputManager] ✅ Mapping trouvé: ${action} <- "${input}" (${type})`);
           this.triggerAction(action, type, value);
         }
       }
@@ -138,7 +161,10 @@ export class InputManager {
 
     const actionHandlers = this.handlers.get(action);
     if (actionHandlers) {
+      console.log(`[InputManager] 🚀 Déclenchement action "${action}" avec ${actionHandlers.length} handler(s)`);
       actionHandlers.forEach(handler => handler(event));
+    } else {
+      console.log(`[InputManager] ⚠️ Aucun handler pour l'action "${action}"`);
     }
   }
 
@@ -177,7 +203,9 @@ export class InputManager {
         case InputType.MOUSE:
           return mapping.key && this.state.pressed.has(mapping.key);
         case InputType.GAMEPAD:
-          // TODO: Implémenter la vérification des boutons de manette
+          if (mapping.button !== undefined) {
+            return this.state.gamepadButtons.get(mapping.button) || false;
+          }
           return false;
         default:
           return false;
@@ -196,7 +224,11 @@ export class InputManager {
         case InputType.MOUSE:
           return mapping.key && this.state.justPressed.has(mapping.key);
         case InputType.GAMEPAD:
-          // TODO: Implémenter la vérification des boutons de manette
+          if (mapping.button !== undefined) {
+            const isPressed = this.state.gamepadButtons.get(mapping.button) || false;
+            const wasPressed = this.state.gamepadPreviousButtons.get(mapping.button) || false;
+            return isPressed && !wasPressed;
+          }
           return false;
         default:
           return false;
@@ -209,14 +241,14 @@ export class InputManager {
   }
 
   public update(): void {
+    // Mettre à jour l'état des manettes AVANT de nettoyer les états temporaires
+    this.updateGamepadState();
+    
     // Nettoyer les états temporaires
     this.state.justPressed.clear();
     this.state.justReleased.clear();
     this.state.mouseDeltaX = 0;
     this.state.mouseDeltaY = 0;
-
-    // Mettre à jour l'état des manettes
-    this.updateGamepadState();
   }
 
   private updateGamepadState(): void {
@@ -225,14 +257,83 @@ export class InputManager {
     const gamepads = navigator.getGamepads();
     const gamepad = gamepads[0]; // Utiliser la première manette
 
-    if (gamepad) {
-      // Mettre à jour les sticks analogiques
-      this.state.leftStickX = gamepad.axes[0] || 0;
-      this.state.leftStickY = gamepad.axes[1] || 0;
-      this.state.rightStickX = gamepad.axes[2] || 0;
-      this.state.rightStickY = gamepad.axes[3] || 0;
+    if (!gamepad) return;
 
-      // TODO: Mettre à jour l'état des boutons
+    // Copier l'état précédent des boutons
+    this.state.gamepadPreviousButtons.clear();
+    for (const [buttonIndex, pressed] of this.state.gamepadButtons.entries()) {
+      this.state.gamepadPreviousButtons.set(buttonIndex, pressed);
+    }
+
+    // Mettre à jour les sticks analogiques
+    const leftStickX = gamepad.axes[0] || 0;
+    const leftStickY = gamepad.axes[1] || 0;
+    const rightStickX = gamepad.axes[2] || 0;
+    const rightStickY = gamepad.axes[3] || 0;
+
+    // Détecter les mouvements de stick significatifs (seuil de 0.3)
+    const STICK_THRESHOLD = 0.3;
+    
+    // Stick gauche pour navigation
+    if (Math.abs(leftStickX) > STICK_THRESHOLD || Math.abs(leftStickY) > STICK_THRESHOLD) {
+      console.log(`[InputManager] 🕹️ Stick gauche détecté: X=${leftStickX.toFixed(2)}, Y=${leftStickY.toFixed(2)}`);
+      
+      // Navigation horizontale
+      if (leftStickX > STICK_THRESHOLD) {
+        this.triggerMappedActions('stick_right', InputType.GAMEPAD, leftStickX);
+      } else if (leftStickX < -STICK_THRESHOLD) {
+        this.triggerMappedActions('stick_left', InputType.GAMEPAD, Math.abs(leftStickX));
+      }
+      
+      // Navigation verticale
+      if (leftStickY > STICK_THRESHOLD) {
+        this.triggerMappedActions('stick_down', InputType.GAMEPAD, leftStickY);
+      } else if (leftStickY < -STICK_THRESHOLD) {
+        this.triggerMappedActions('stick_up', InputType.GAMEPAD, Math.abs(leftStickY));
+      }
+    }
+
+    this.state.leftStickX = leftStickX;
+    this.state.leftStickY = leftStickY;
+    this.state.rightStickX = rightStickX;
+    this.state.rightStickY = rightStickY;
+
+    // Mettre à jour l'état des boutons
+    for (let i = 0; i < gamepad.buttons.length; i++) {
+      const button = gamepad.buttons[i];
+      const isPressed = button.pressed;
+      const wasPressed = this.state.gamepadButtons.get(i) || false;
+
+      this.state.gamepadButtons.set(i, isPressed);
+
+      // Détecter les pressions et relâchements
+      if (isPressed && !wasPressed) {
+        console.log(`[InputManager] 🎮 Bouton ${i} pressé`);
+        this.triggerMappedActions(`button${i}`, InputType.GAMEPAD, button.value);
+      } else if (!isPressed && wasPressed) {
+        console.log(`[InputManager] 🎮 Bouton ${i} relâché`);
+        this.triggerMappedActions(`button${i}`, InputType.GAMEPAD, 0);
+      }
+    }
+
+    // Gérer le D-pad (souvent des axes 4 et 5 sur Xbox 360)
+    const dpadX = gamepad.axes[6] || 0; // Axe horizontal du D-pad
+    const dpadY = gamepad.axes[7] || 0; // Axe vertical du D-pad
+
+    if (Math.abs(dpadX) > 0.5 || Math.abs(dpadY) > 0.5) {
+      console.log(`[InputManager] 🎮 D-pad détecté: X=${dpadX}, Y=${dpadY}`);
+      
+      if (dpadX > 0.5) {
+        this.triggerMappedActions('dpad_right', InputType.GAMEPAD, 1);
+      } else if (dpadX < -0.5) {
+        this.triggerMappedActions('dpad_left', InputType.GAMEPAD, 1);
+      }
+      
+      if (dpadY > 0.5) {
+        this.triggerMappedActions('dpad_down', InputType.GAMEPAD, 1);
+      } else if (dpadY < -0.5) {
+        this.triggerMappedActions('dpad_up', InputType.GAMEPAD, 1);
+      }
     }
   }
 

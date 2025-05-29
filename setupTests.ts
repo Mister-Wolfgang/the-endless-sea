@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 if (typeof global.ResizeObserver === 'undefined') {
   class ResizeObserver {
     observe() {}

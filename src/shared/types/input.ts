@@ -13,6 +13,14 @@ export enum InputAction {
   MOVE_LEFT = 'move_left',
   MOVE_RIGHT = 'move_right',
   
+  // Navigation menu
+  MENU_UP = 'menu_up',
+  MENU_DOWN = 'menu_down',
+  MENU_LEFT = 'menu_left',
+  MENU_RIGHT = 'menu_right',
+  MENU_SELECT = 'menu_select',
+  MENU_BACK = 'menu_back',
+  
   // Actions principales
   INTERACT = 'interact',
   CANCEL = 'cancel',
@@ -47,6 +55,8 @@ export interface InputState {
   leftStickY: number;
   rightStickX: number;
   rightStickY: number;
+  gamepadButtons: Map<number, boolean>;
+  gamepadPreviousButtons: Map<number, boolean>;
 }
 
 export interface InputMapping {

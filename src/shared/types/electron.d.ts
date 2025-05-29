@@ -21,6 +21,9 @@ export interface ElectronAPI {
       NODE_ENV?: string;
     };
   }>;
+  
+  // APIs pour la gestion de l'application
+  quit: () => void;
 }
 
 // Étendre l'interface Window pour inclure electronAPI
