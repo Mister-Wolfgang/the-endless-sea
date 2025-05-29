@@ -34,7 +34,7 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
   - [x] Test unitaire validant la traduction de "welcome" (FR par défaut, EN après changement de langue)
   - [x] Lint, typecheck, tests OK
 - [ ] Setup Storybook
-- [x] Structure des dossiers et conventions _(refactor-structure, 29/05/2025)_
+- [x] Structure des dossiers et conventions _(refactor-structure, 29/05/2025)_ ✅ **TERMINÉ**
 
 ### 1.2. Composants atomiques ([Suivi détaillé](./docs/Suivi/01_TODO_Composants.md))
 
