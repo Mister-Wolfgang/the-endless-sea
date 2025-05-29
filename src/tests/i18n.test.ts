@@ -1,5 +1,5 @@
 // Mock loadLocales pour les tests
-jest.mock('../src/loadLocales', () => ({
+jest.mock('../services/loadLocales', () => ({
   loadLocales: jest.fn().mockResolvedValue({
     en: {
       translation: {
@@ -16,7 +16,7 @@ jest.mock('../src/loadLocales', () => ({
   }),
 }));
 
-import i18n, { initI18n } from '../src/services/i18n';
+import i18n, { initI18n } from '../services/i18n';
 
 describe('i18n configuration', () => {
   beforeAll(async () => {
