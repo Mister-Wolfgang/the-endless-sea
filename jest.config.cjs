@@ -19,5 +19,5 @@ module.exports = {
   ],
   
   // Supprimer les logs console pendant les tests (sauf erreurs)
-  setupFiles: ['<rootDir>/jest.setup.js'],
+  // setupFiles: ['<rootDir>/jest.setup.js'], // Fichier non trouvé, commenté
 };

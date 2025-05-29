@@ -7,8 +7,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -k -r \"yarn vite\" \"yarn electron:dev\"",
-    "electron:dev": "cross-env NODE_ENV=development electron ./main.cjs",
+    "dev": "concurrently -k -r \"yarn vite\" \"yarn cross-env NODE_ENV=development electron ./main.cjs\"",
+    "start": "vite",
     "build": "vite build && node scripts/copy-locales.cjs && node scripts/fix-index-paths.cjs",
     "preview": "vite preview",
     "format": "prettier --check .",
