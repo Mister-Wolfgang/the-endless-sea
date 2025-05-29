@@ -47,8 +47,7 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
 - [ ] Système d’input basique
 - [ ] Affichage du personnage principal
 - [ ] Mouvement du personnage
-- [ ] Système d'input basique
-- [ ] Gestion des collisionsSystème d'input basique
+- [ ] Gestion des collisions
 - [ ] Système d’inventaire minimal
 - [ ] Boucle de jeu principale
 - [ ] Système de sauvegarde simple
