@@ -49,7 +49,21 @@ Ce document sert de tableau de bord pour suivre l’avancement du projet, étape
   - [x] Service InputManager avec gestion clavier, souris et manette
   - [x] 16 tests TDD passant avec toutes les fonctionnalités
   - [x] Mapping d'actions configurables et handlers d'événements
-- [ ] Système de store/state management global
+- [x] Système de store/state management global _(feature/state-management, 29/05/2025)_ ✅ **TERMINÉ**
+  - [x] Store Zustand avec état global (jeu, joueur, inventaire)
+  - [x] Types TypeScript pour toutes les entités du store
+  - [x] 14 tests TDD passant avec toutes les actions
+  - [x] Actions game/player/inventory complètes et testées
+- [ ] Menu principal interactif
+  - [ ] Composant MenuPrincipal avec navigation clavier/manette
+  - [ ] Intégration InputManager pour navigation menu
+  - [ ] Actions store pour état menu et navigation
+  - [ ] Bouton "Nouvelle Partie" (lance le jeu)
+  - [ ] Bouton "Continuer" (grisé si pas de sauvegarde)
+  - [ ] Sous-menu "Options" (langue, contrôles)
+  - [ ] Sous-menu "Langue" avec sélection FR/EN
+  - [ ] Sous-menu "Contrôles" avec mapping touches
+  - [ ] Tests TDD complets pour toute la navigation
 - [ ] Affichage du personnage principal
 - [ ] Mouvement du personnage
 - [ ] Gestion des collisions
