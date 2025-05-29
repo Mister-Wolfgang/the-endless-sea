@@ -163,9 +163,13 @@ export function MainMenu({
     // Sélection clavier avancée
     inputManager.mapInput(InputAction.MENU_SELECT, InputType.KEYBOARD, ' ');
     
-    // Manette - D-pad
+    // Manette - D-pad (support double: noms ET boutons spécifiques)
     inputManager.mapInput(InputAction.MENU_UP, InputType.GAMEPAD, 'dpad_up');
     inputManager.mapInput(InputAction.MENU_DOWN, InputType.GAMEPAD, 'dpad_down');
+    
+    // D-pad Xbox 360 - Boutons spécifiques (12=Haut, 13=Bas, 14=Gauche, 15=Droite)
+    inputManager.mapInput(InputAction.MENU_UP, InputType.GAMEPAD, undefined, 12);
+    inputManager.mapInput(InputAction.MENU_DOWN, InputType.GAMEPAD, undefined, 13);
     
     // Manette - Stick gauche
     inputManager.mapInput(InputAction.MENU_UP, InputType.GAMEPAD, 'stick_up');
