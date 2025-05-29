@@ -1,5 +1,5 @@
 // IMPORTANT : Les mocks doivent être placés avant tout import du composant testé !
-jest.mock('../services/loadLocales', () => ({
+jest.mock('../../services/loadLocales', () => ({
   loadLocales: jest.fn().mockResolvedValue({
     en: {
       translation: {
@@ -43,9 +43,9 @@ jest.mock('three', () => {
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { GameCanvas } from '../game/scenes/GameCanvas';
+import { GameCanvas } from '../../game/scenes/GameCanvas';
 import { I18nextProvider } from 'react-i18next';
-import i18n, { initI18n } from '../services/i18n';
+import i18n, { initI18n } from '../../services/i18n';
 
 describe('Lancement du jeu', () => {
   beforeAll(async () => {
