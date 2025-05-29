@@ -34,7 +34,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-i18next": "^15.5.2",
-    "three": "^0.176.0"
+    "three": "^0.176.0",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "4.0.0",
