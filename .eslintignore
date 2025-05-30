@@ -1,0 +1,12 @@
+# Dossier Storybook
+.storybook/
+
+# Fichiers de configuration
+*.config.js
+*.config.cjs
+vitest.workspace.ts
+
+# Dossiers de build
+node_modules/
+dist/
+build/

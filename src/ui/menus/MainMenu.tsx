@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppStore } from '../../shared/stores/AppStore';
 import { InputManager } from '../../shared/services/InputManager';
 import { InputAction, InputType } from '../../shared/types/input';
-import { CharacterSelection } from './CharacterSelection_BindingOfIsaac';
-import { CharacterData, GameMode } from '../../shared/types/character';
 
 export interface MainMenuProps {
   onNewGame?: () => void;
@@ -28,7 +26,6 @@ export function MainMenu({
   hasSave = false,
 }: MainMenuProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [showCharacterSelection, setShowCharacterSelection] = useState(false);
   const { startGame, setScene } = useAppStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputManagerRef = useRef<InputManager | null>(null);
@@ -48,8 +45,9 @@ export function MainMenu({
         if (onNewGame) {
           onNewGame();
         } else {
-          // Ouvrir la modal de sélection de personnage
-          setShowCharacterSelection(true);
+          // Action par défaut - démarrer le jeu directement
+          startGame();
+          setScene('game');
         }
       },
     },
@@ -126,18 +124,21 @@ export function MainMenu({
       console.log(`[MainMenu] Index changé: ${prev} → ${newIndex}`);
       return newIndex;
     });
-  }, [menuItems.length]);
+  }, []); // Enlever menuItems.length pour éviter les recréations constantes
 
   const handleSelect = useCallback(() => {
     console.log(`[MainMenu] handleSelect appelé pour index: ${selectedIndex}`);
-    const selectedItem = menuItems[selectedIndex];
-    if (selectedItem && !selectedItem.disabled) {
-      console.log(`[MainMenu] Exécution de l'action: ${selectedItem.label}`);
-      selectedItem.action();
-    } else {
-      console.log(`[MainMenu] Item désactivé ou inexistant:`, selectedItem);
-    }
-  }, [selectedIndex, menuItems]);
+    setSelectedIndex((currentIndex) => {
+      const selectedItem = menuItems[currentIndex];
+      if (selectedItem && !selectedItem.disabled) {
+        console.log(`[MainMenu] Exécution de l'action: ${selectedItem.label}`);
+        selectedItem.action();
+      } else {
+        console.log(`[MainMenu] Item désactivé ou inexistant:`, selectedItem);
+      }
+      return currentIndex; // Retourner la même valeur pour ne pas déclencher un re-render
+    });
+  }, []); // Enlever les dépendances pour stabiliser le callback
 
   // Ajouter/supprimer les event listeners
   useEffect(() => {
@@ -208,7 +209,7 @@ export function MainMenu({
       inputManager.destroy();
       inputManagerRef.current = null;
     };
-  }, []); // Pas de dépendances - l'InputManager n'a besoin d'être créé qu'une fois
+  }, []); // Pas de dépendances - l'InputManager ne se recrée qu'au montage
 
   // Surveiller l'état de la manette pour le debug
   useEffect(() => {
@@ -252,20 +253,6 @@ export function MainMenu({
 
     const interval = setInterval(updateDebugInfo, 100);
     return () => clearInterval(interval);
-  }, []);
-
-  // Handlers pour la sélection de personnage
-  const handleStartGame = useCallback((character: CharacterData, mode: GameMode, seed?: string) => {
-    console.log('[MainMenu] Démarrage du jeu avec:', { character, mode, seed });
-    setShowCharacterSelection(false);
-    
-    // Ici, vous pouvez stocker le personnage sélectionné dans le store ou passer les données au jeu
-    startGame();
-    setScene('game');
-  }, [startGame, setScene]);
-
-  const handleCloseCharacterSelection = useCallback(() => {
-    setShowCharacterSelection(false);
   }, []);
 
   return (
@@ -382,13 +369,6 @@ export function MainMenu({
           <p>Left Stick Y: {debugInfo.leftStickY.toFixed(2)}</p>
         </div>
       )}
-
-      {/* Modal de sélection de personnage */}
-      <CharacterSelection
-        isOpen={showCharacterSelection}
-        onClose={handleCloseCharacterSelection}
-        onStartGame={handleStartGame}
-      />
     </div>
   );
 }

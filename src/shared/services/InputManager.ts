@@ -14,6 +14,7 @@ export class InputManager {
   private handlers: Map<InputAction, InputHandler[]>;
   private previousMouseX: number = 0;
   private previousMouseY: number = 0;
+  private enabled: boolean = true; // Permet de désactiver temporairement l'InputManager
   
   // Debounce pour les sticks analogiques
   private stickLastTrigger: Map<string, number> = new Map();
