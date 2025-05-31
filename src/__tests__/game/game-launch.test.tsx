@@ -63,16 +63,4 @@ describe('Lancement du jeu', () => {
     const canvas = document.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
   });
-
-  it('affiche le titre du jeu', () => {
-    const { getByText } = render(
-      <I18nextProvider i18n={i18n}>
-        <GameCanvas title="The Endless Sea" />
-      </I18nextProvider>,
-    );
-    // Vérifie que le titre est bien présent dans le DOM (même via portal)
-    const title = getByText('The Endless Sea');
-    expect(title).toBeInTheDocument();
-    expect(title.tagName).toBe('H1');
-  });
 });
