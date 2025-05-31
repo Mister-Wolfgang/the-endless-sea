@@ -22,10 +22,6 @@ export async function loadLocales(): Promise<Record<string, any>> {
         'public',
         'locales',
       );
-      userLocalesDir = await electronAPI.pathJoin(
-        processInfo.cwd,
-        'user-translations',
-      );
     } else {
       // En production - dossier utilisateur à côté de l'exécutable pour que les joueurs puissent y accéder
       userLocalesDir = await electronAPI.pathJoin(
